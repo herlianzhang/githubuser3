@@ -1,18 +1,23 @@
 package com.latihangoding.githubuserapp.viewmodels
 
+import android.app.Application
 import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.*
+import com.latihangoding.githubuserapp.databases.Favorite
+import com.latihangoding.githubuserapp.databases.FavoriteDatabase
 import com.latihangoding.githubuserapp.models.ItemModel
 import com.latihangoding.githubuserapp.network.GithubApi
+import com.latihangoding.githubuserapp.repository.FavoriteRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import java.lang.Exception
 
-class ListViewModel : ViewModel() {
+class ListViewModel(application: Application) : AndroidViewModel(application) {
+    private val repository: FavoriteRepository
+
+    private val favorites: LiveData<List<Favorite>>
 
     private val _usersModel = MutableLiveData<List<ItemModel>>()
     val usersModel: LiveData<List<ItemModel>>
@@ -35,6 +40,9 @@ class ListViewModel : ViewModel() {
     private val coroutineScope = CoroutineScope(job + Dispatchers.Main)
 
     init {
+        val favoriteDao = FavoriteDatabase.getInstance(application).favoriteDao()
+        repository = FavoriteRepository(favoriteDao)
+        favorites = repository.favorites
         _isShowNoData.postValue(true)
         _isError.postValue(false)
     }
@@ -104,6 +112,13 @@ class ListViewModel : ViewModel() {
             }
 
             _isLoading.postValue(false)
+        }
+    }
+
+    fun setFavorite(item: ItemModel) {
+        val favorite = Favorite(item.login, item.id, item.avatarUrl)
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.setFavorite(favorite)
         }
     }
 

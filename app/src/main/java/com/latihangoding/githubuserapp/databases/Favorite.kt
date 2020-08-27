@@ -8,5 +8,6 @@ import androidx.room.PrimaryKey
 data class Favorite(
     @PrimaryKey val username: String,
     @ColumnInfo(name = "id") val id: Int?,
+    @ColumnInfo(name = "avatar_url") val avatarUrl: String?,
     @ColumnInfo(name = "date_added") val date: Long = System.currentTimeMillis()
 )

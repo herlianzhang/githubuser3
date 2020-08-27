@@ -1,6 +1,5 @@
 package com.latihangoding.githubuserapp.adapters
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -33,7 +32,7 @@ class ListViewAdapter(private val onClickListener: OnClickListener) : ListAdapte
                 onClickListener.onListClick(item.login)
             }
             binding.root.ivFavorite.setOnClickListener {
-                Log.d(ListViewAdapter::class.java.simpleName, "bind: masuk pak eko")
+                onClickListener.onFavoriteClick(item)
             }
         }
 
@@ -51,15 +50,14 @@ class ListViewAdapter(private val onClickListener: OnClickListener) : ListAdapte
 
     interface OnClickListener {
         fun onListClick(username: String)
+        fun onFavoriteClick(item: ItemModel)
     }
 }
 
 class ListDiffCallBack : DiffUtil.ItemCallback<ItemModel>() {
-    override fun areItemsTheSame(oldItem: ItemModel, newItem: ItemModel): Boolean {
-        return oldItem.id == newItem.id
-    }
+    override fun areItemsTheSame(oldItem: ItemModel, newItem: ItemModel): Boolean =
+        oldItem.id == newItem.id
 
-    override fun areContentsTheSame(oldItem: ItemModel, newItem: ItemModel): Boolean {
-        return oldItem == newItem
-    }
+    override fun areContentsTheSame(oldItem: ItemModel, newItem: ItemModel): Boolean =
+        oldItem == newItem
 }

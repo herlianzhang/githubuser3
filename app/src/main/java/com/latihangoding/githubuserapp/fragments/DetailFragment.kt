@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.latihangoding.githubuserapp.R
 import com.latihangoding.githubuserapp.databinding.ActivityListBinding
 import com.latihangoding.githubuserapp.adapters.ListViewAdapter
+import com.latihangoding.githubuserapp.models.ItemModel
 import com.latihangoding.githubuserapp.viewmodels.ListViewModel
 
 class DetailFragment : Fragment(), ListViewAdapter.OnClickListener {
@@ -50,6 +51,10 @@ class DetailFragment : Fragment(), ListViewAdapter.OnClickListener {
     }
 
     override fun onListClick(username: String) {
+
+    }
+
+    override fun onFavoriteClick(item: ItemModel) {
 
     }
 

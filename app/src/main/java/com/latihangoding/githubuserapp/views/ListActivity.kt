@@ -11,11 +11,11 @@ import android.view.MenuItem
 import android.widget.SearchView
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.latihangoding.githubuserapp.R
 import com.latihangoding.githubuserapp.adapters.ListViewAdapter
 import com.latihangoding.githubuserapp.databinding.ActivityListBinding
+import com.latihangoding.githubuserapp.models.ItemModel
 import com.latihangoding.githubuserapp.viewmodels.ListViewModel
 
 class ListActivity : AppCompatActivity(), ListViewAdapter.OnClickListener {
@@ -34,13 +34,13 @@ class ListActivity : AppCompatActivity(), ListViewAdapter.OnClickListener {
         binding.rvMain.adapter = adapter
         binding.viewModel = viewModel
 
-        viewModel.usersModel.observe(this, Observer {
+        viewModel.usersModel.observe(this, {
             it?.let {
                 adapter.submitList(it)
             }
         })
 
-        viewModel.isError.observe(this, Observer {
+        viewModel.isError.observe(this, {
             if (it) {
                 showErrorMessage()
                 viewModel.doneShowErrorMessage()
@@ -77,6 +77,10 @@ class ListActivity : AppCompatActivity(), ListViewAdapter.OnClickListener {
                 val mIntent = Intent(Settings.ACTION_LOCALE_SETTINGS)
                 startActivity(mIntent)
             }
+            R.id.itemFavorites -> {
+                val mIntent = Intent(this@ListActivity, FavoriteListActivity::class.java)
+                startActivity(mIntent)
+            }
 
         }
         return super.onOptionsItemSelected(item)
@@ -86,6 +90,10 @@ class ListActivity : AppCompatActivity(), ListViewAdapter.OnClickListener {
         val i = Intent(this, DetailActivity::class.java)
         i.putExtra("username", username)
         startActivity(i)
+    }
+
+    override fun onFavoriteClick(item: ItemModel) {
+        viewModel.setFavorite(item)
     }
 
     private fun showErrorMessage() {

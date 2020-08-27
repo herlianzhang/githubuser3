@@ -1,17 +1,14 @@
 package com.latihangoding.githubuserapp.databases
 
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.Query
+import androidx.room.*
 
 @Dao
 interface FavoriteDao {
     @Query("SELECT * FROM favorite_table ORDER BY date_added")
     fun getFavorites(): LiveData<List<Favorite>>
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertFavorite(favorite: Favorite): Long
 
     @Delete
