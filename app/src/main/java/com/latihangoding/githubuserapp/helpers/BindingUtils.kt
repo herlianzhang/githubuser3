@@ -1,6 +1,7 @@
 package com.latihangoding.githubuserapp.helpers
 
 import android.view.View
+import android.widget.ImageButton
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
@@ -21,4 +22,13 @@ fun bindImage(imgView: ImageView, imgUrl: String?) {
 @BindingAdapter("visibility")
 fun View.setVisibility(status: Boolean) {
     visibility = if (status) View.VISIBLE else View.GONE
+}
+
+@BindingAdapter("isFavorite")
+fun ImageButton.setFavorite(isFavorite: Boolean) {
+    if (isFavorite) {
+        setImageResource(R.drawable.ic_favorite)
+    } else {
+        setImageResource(R.drawable.ic_favorite_border)
+    }
 }

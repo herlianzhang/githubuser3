@@ -8,9 +8,7 @@ import com.latihangoding.githubuserapp.databases.FavoriteDatabase
 import com.latihangoding.githubuserapp.models.ItemModel
 import com.latihangoding.githubuserapp.network.GithubApi
 import com.latihangoding.githubuserapp.repository.FavoriteRepository
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import java.lang.Exception
 
@@ -35,10 +33,6 @@ class ListViewModel(application: Application) : AndroidViewModel(application) {
     val isError: LiveData<Boolean>
         get() = _isError
 
-    private var job = Job()
-
-    private val coroutineScope = CoroutineScope(job + Dispatchers.Main)
-
     init {
         val favoriteDao = FavoriteDatabase.getInstance(application).favoriteDao()
         repository = FavoriteRepository(favoriteDao)
@@ -48,7 +42,7 @@ class ListViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun getSearch(username: String) {
-        coroutineScope.launch(block = {
+        viewModelScope.launch {
             _isLoading.postValue(true)
             if (_isShowNoData.value == true) {
                 _isShowNoData.postValue(false)
@@ -64,14 +58,15 @@ class ListViewModel(application: Application) : AndroidViewModel(application) {
             } catch (e: Exception) {
                 _isError.postValue(true)
                 Log.e("error", "username: $username cause: $e")
+            } finally {
+                checkFavorite()
             }
-
             _isLoading.postValue(false)
-        })
+        }
     }
 
     fun getFollowers(username: String) {
-        coroutineScope.launch {
+        viewModelScope.launch(Dispatchers.Main) {
             _isLoading.postValue(true)
             if (_isShowNoData.value == true) {
                 _isShowNoData.postValue(false)
@@ -88,13 +83,13 @@ class ListViewModel(application: Application) : AndroidViewModel(application) {
                 _isError.postValue(true)
                 Log.e("error", "username: $username cause: $e")
             }
-
             _isLoading.postValue(false)
+            checkFavorite()
         }
     }
 
     fun getFollowing(username: String) {
-        coroutineScope.launch {
+        viewModelScope.launch(Dispatchers.Main) {
             _isLoading.postValue(true)
             if (_isShowNoData.value == true) {
                 _isShowNoData.postValue(false)
@@ -110,15 +105,21 @@ class ListViewModel(application: Application) : AndroidViewModel(application) {
                 _isError.postValue(true)
                 Log.e("error", "username: $username cause: $e")
             }
-
             _isLoading.postValue(false)
+            checkFavorite()
         }
     }
 
     fun setFavorite(item: ItemModel) {
         val favorite = Favorite(item.login, item.id, item.avatarUrl)
         viewModelScope.launch(Dispatchers.IO) {
-            repository.setFavorite(favorite)
+            try {
+                repository.setFavorite(favorite)
+            } catch(e: Exception) {
+
+            } finally {
+                checkFavorite()
+            }
         }
     }
 
@@ -126,8 +127,23 @@ class ListViewModel(application: Application) : AndroidViewModel(application) {
         _isError.postValue(false)
     }
 
-    override fun onCleared() {
-        super.onCleared()
-        job.cancel()
+    fun checkFavorite() {
+        viewModelScope.launch(Dispatchers.Main) {
+//            _usersModel.value?.let { users ->
+//                for (user in users) {
+//                    user.isFavorite = repository.getIsFavorite(user.login)
+//                }
+//            }
+            usersModel.value?.let { users ->
+                val mUsers = mutableListOf<ItemModel>()
+                for (user in users) {
+                    val mUser = user
+                    mUser.isFavorite = repository.getIsFavorite(user.login)
+                    Log.d("masuk", "checkFavorite: ${mUser.isFavorite}")
+                    mUsers.add(mUser)
+                }
+                _usersModel.postValue(mUsers)
+            }
+        }
     }
 }

@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
 class FavoriteViewModel(application: Application) : AndroidViewModel(application) {
     private val repository: FavoriteRepository
 
-    private val favorites: LiveData<List<Favorite>>
+    val favorites: LiveData<List<Favorite>>
 
     init {
         val favoriteDao = FavoriteDatabase.getInstance(application).favoriteDao()

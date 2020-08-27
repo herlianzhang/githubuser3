@@ -9,20 +9,25 @@ import com.latihangoding.githubuserapp.databases.Favorite
 import com.latihangoding.githubuserapp.databinding.ListFavoriteBinding
 
 
-class FavoriteAdapter() : ListAdapter<Favorite, FavoriteAdapter.ViewHolder>(FavoriteDiffCallback()) {
+class FavoriteAdapter(private val onClickListener: OnClickListener) : ListAdapter<Favorite, FavoriteAdapter.ViewHolder>(FavoriteDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder = ViewHolder.from(parent)
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = getItem(position)
-        holder.bind(item)
+        holder.bind(item, onClickListener)
     }
 
     class ViewHolder private constructor(private val binding: ListFavoriteBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: Favorite) {
-            binding.model = item
+        fun bind(favorite: Favorite, onClickListener: OnClickListener) {
+            binding.model = favorite
             binding.executePendingBindings()
-
+            binding.root.setOnClickListener {
+                onClickListener.onListClick(favorite.username)
+            }
+            binding.ivRemove.setOnClickListener {
+                onClickListener.onDeleteClick(favorite)
+            }
         }
 
         companion object {
@@ -35,6 +40,10 @@ class FavoriteAdapter() : ListAdapter<Favorite, FavoriteAdapter.ViewHolder>(Favo
         }
     }
 
+    interface OnClickListener {
+        fun onListClick(username: String)
+        fun onDeleteClick(favorite: Favorite)
+    }
 }
 
 class FavoriteDiffCallback : DiffUtil.ItemCallback<Favorite>() {

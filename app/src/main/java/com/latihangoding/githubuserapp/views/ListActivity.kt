@@ -6,6 +6,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.Settings
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.SearchView
@@ -37,6 +38,7 @@ class ListActivity : AppCompatActivity(), ListViewAdapter.OnClickListener {
         viewModel.usersModel.observe(this, {
             it?.let {
                 adapter.submitList(it)
+                Log.d("masuk", "onCreate: masuk pak eko")
             }
         })
 

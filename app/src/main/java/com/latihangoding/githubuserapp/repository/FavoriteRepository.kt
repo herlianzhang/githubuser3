@@ -7,12 +7,9 @@ class FavoriteRepository(private val favoriteDao: FavoriteDao) {
     val favorites = favoriteDao.getFavorites()
 
     suspend fun setFavorite(favorite: Favorite) {
-        val find = favoriteDao.filter(favorite.username)
-
-        if (find == 0) {
-            favoriteDao.insertFavorite(favorite)
-        } else {
-            favoriteDao.deleteFavorite(favorite)
-        }
+        if (getIsFavorite(favorite.username)) favoriteDao.deleteFavorite(favorite)
+        else favoriteDao.insertFavorite(favorite)
     }
+
+    suspend fun getIsFavorite(username: String) : Boolean = favoriteDao.filter(username) == 1
 }

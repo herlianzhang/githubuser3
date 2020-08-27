@@ -29,14 +29,15 @@
 
         <ImageButton
             android:id="@+id/ivFavorite"
-            android:layout_margin="20dp"
             android:layout_width="35dp"
             android:layout_height="35dp"
+            android:layout_margin="20dp"
             android:background="?actionBarItemBackground"
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:src="@drawable/ic_favorite_border"/>
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/ic_favorite_border"
+            isFavorite="@{model.isFavorite}"/>
 
         <TextView
             android:id="@+id/tvUsername"

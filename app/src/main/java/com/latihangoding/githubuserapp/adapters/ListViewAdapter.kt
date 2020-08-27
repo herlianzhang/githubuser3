@@ -56,7 +56,7 @@ class ListViewAdapter(private val onClickListener: OnClickListener) : ListAdapte
 
 class ListDiffCallBack : DiffUtil.ItemCallback<ItemModel>() {
     override fun areItemsTheSame(oldItem: ItemModel, newItem: ItemModel): Boolean =
-        oldItem.id == newItem.id
+        oldItem.login == newItem.login
 
     override fun areContentsTheSame(oldItem: ItemModel, newItem: ItemModel): Boolean =
         oldItem == newItem

@@ -5,7 +5,7 @@ import androidx.room.*
 
 @Dao
 interface FavoriteDao {
-    @Query("SELECT * FROM favorite_table ORDER BY date_added")
+    @Query("SELECT * FROM favorite_table ORDER BY date_added DESC")
     fun getFavorites(): LiveData<List<Favorite>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
