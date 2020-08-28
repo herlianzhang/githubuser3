@@ -2,14 +2,18 @@ package com.latihangoding.githubuserapp.repository
 
 import com.latihangoding.githubuserapp.databases.Favorite
 import com.latihangoding.githubuserapp.databases.FavoriteDao
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 class FavoriteRepository(private val favoriteDao: FavoriteDao) {
     val favorites = favoriteDao.getFavorites()
 
     suspend fun setFavorite(favorite: Favorite) {
-        if (getIsFavorite(favorite.username)) favoriteDao.deleteFavorite(favorite)
-        else favoriteDao.insertFavorite(favorite)
+        withContext(Dispatchers.IO) {
+            if (getIsFavorite(favorite.username)) favoriteDao.deleteFavorite(favorite)
+            else favoriteDao.insertFavorite(favorite)
+        }
     }
 
-    suspend fun getIsFavorite(username: String) : Boolean = favoriteDao.filter(username) == 1
+    suspend fun getIsFavorite(username: String) : Boolean = withContext(Dispatchers.IO) { favoriteDao.filter(username) == 1 }
 }

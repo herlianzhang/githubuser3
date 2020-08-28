@@ -24,11 +24,7 @@ fun View.setVisibility(status: Boolean) {
     visibility = if (status) View.VISIBLE else View.GONE
 }
 
-@BindingAdapter("isFavorite")
+@BindingAdapter("setFavorite")
 fun ImageButton.setFavorite(isFavorite: Boolean) {
-    if (isFavorite) {
-        setImageResource(R.drawable.ic_favorite)
-    } else {
-        setImageResource(R.drawable.ic_favorite_border)
-    }
+    setImageResource(if (isFavorite) R.drawable.ic_favorite else R.drawable.ic_favorite_border)
 }

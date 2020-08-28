@@ -1,13 +1,14 @@
 package com.latihangoding.githubuserapp.adapters
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.ListAdapter
+import com.latihangoding.githubuserapp.R
 import com.latihangoding.githubuserapp.databinding.ListItemBinding
 import com.latihangoding.githubuserapp.models.ItemModel
-import kotlinx.android.synthetic.main.list_item.view.*
 
 
 class ListViewAdapter(private val onClickListener: OnClickListener) : ListAdapter<ItemModel, ListViewAdapter.ViewHolder>(
@@ -31,7 +32,7 @@ class ListViewAdapter(private val onClickListener: OnClickListener) : ListAdapte
             binding.root.setOnClickListener {
                 onClickListener.onListClick(item.login)
             }
-            binding.root.ivFavorite.setOnClickListener {
+            binding.ivFavorite.setOnClickListener {
                 onClickListener.onFavoriteClick(item)
             }
         }
@@ -48,6 +49,8 @@ class ListViewAdapter(private val onClickListener: OnClickListener) : ListAdapte
         }
     }
 
+
+
     interface OnClickListener {
         fun onListClick(username: String)
         fun onFavoriteClick(item: ItemModel)
@@ -58,6 +61,8 @@ class ListDiffCallBack : DiffUtil.ItemCallback<ItemModel>() {
     override fun areItemsTheSame(oldItem: ItemModel, newItem: ItemModel): Boolean =
         oldItem.login == newItem.login
 
-    override fun areContentsTheSame(oldItem: ItemModel, newItem: ItemModel): Boolean =
-        oldItem == newItem
+    override fun areContentsTheSame(oldItem: ItemModel, newItem: ItemModel): Boolean {
+        Log.d("masuk", "areContentsTheSame: id: ${oldItem.login} : ${oldItem.isFavorite} == id: ${newItem.login} : ${newItem.isFavorite} = ${oldItem == newItem}")
+        return oldItem == newItem
+    }
 }

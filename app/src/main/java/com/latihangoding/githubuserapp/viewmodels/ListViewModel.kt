@@ -10,12 +10,13 @@ import com.latihangoding.githubuserapp.network.GithubApi
 import com.latihangoding.githubuserapp.repository.FavoriteRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.lang.Exception
 
 class ListViewModel(application: Application) : AndroidViewModel(application) {
     private val repository: FavoriteRepository
 
-    private val favorites: LiveData<List<Favorite>>
+    val favorites: LiveData<List<Favorite>>
 
     private val _usersModel = MutableLiveData<List<ItemModel>>()
     val usersModel: LiveData<List<ItemModel>>
@@ -42,7 +43,7 @@ class ListViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun getSearch(username: String) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.Main) {
             _isLoading.postValue(true)
             if (_isShowNoData.value == true) {
                 _isShowNoData.postValue(false)
@@ -58,10 +59,9 @@ class ListViewModel(application: Application) : AndroidViewModel(application) {
             } catch (e: Exception) {
                 _isError.postValue(true)
                 Log.e("error", "username: $username cause: $e")
-            } finally {
-                checkFavorite()
             }
             _isLoading.postValue(false)
+            checkFavorite()
         }
     }
 
@@ -113,13 +113,8 @@ class ListViewModel(application: Application) : AndroidViewModel(application) {
     fun setFavorite(item: ItemModel) {
         val favorite = Favorite(item.login, item.id, item.avatarUrl)
         viewModelScope.launch(Dispatchers.IO) {
-            try {
-                repository.setFavorite(favorite)
-            } catch(e: Exception) {
-
-            } finally {
-                checkFavorite()
-            }
+            repository.setFavorite(favorite)
+            checkFavorite()
         }
     }
 
@@ -129,17 +124,10 @@ class ListViewModel(application: Application) : AndroidViewModel(application) {
 
     fun checkFavorite() {
         viewModelScope.launch(Dispatchers.Main) {
-//            _usersModel.value?.let { users ->
-//                for (user in users) {
-//                    user.isFavorite = repository.getIsFavorite(user.login)
-//                }
-//            }
             usersModel.value?.let { users ->
                 val mUsers = mutableListOf<ItemModel>()
                 for (user in users) {
-                    val mUser = user
-                    mUser.isFavorite = repository.getIsFavorite(user.login)
-                    Log.d("masuk", "checkFavorite: ${mUser.isFavorite}")
+                    val mUser = user.copy(isFavorite = repository.getIsFavorite(user.login))
                     mUsers.add(mUser)
                 }
                 _usersModel.postValue(mUsers)

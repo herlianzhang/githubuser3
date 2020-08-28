@@ -18,6 +18,9 @@ import com.latihangoding.githubuserapp.adapters.ListViewAdapter
 import com.latihangoding.githubuserapp.databinding.ActivityListBinding
 import com.latihangoding.githubuserapp.models.ItemModel
 import com.latihangoding.githubuserapp.viewmodels.ListViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class ListActivity : AppCompatActivity(), ListViewAdapter.OnClickListener {
 
@@ -37,8 +40,8 @@ class ListActivity : AppCompatActivity(), ListViewAdapter.OnClickListener {
 
         viewModel.usersModel.observe(this, {
             it?.let {
-                adapter.submitList(it)
-                Log.d("masuk", "onCreate: masuk pak eko")
+                adapter.submitList(ArrayList(it))
+                Log.d("masuk", "onCreate: masuk pak eko ${adapter.currentList == it}")
             }
         })
 
@@ -47,6 +50,10 @@ class ListActivity : AppCompatActivity(), ListViewAdapter.OnClickListener {
                 showErrorMessage()
                 viewModel.doneShowErrorMessage()
             }
+        })
+
+        viewModel.favorites.observe(this, {
+            viewModel.checkFavorite()
         })
     }
 

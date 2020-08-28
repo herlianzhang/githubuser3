@@ -42,9 +42,9 @@ class DetailFragment : Fragment(), ListViewAdapter.OnClickListener {
         binding.rvMain.adapter = adapter
         binding.viewModel = viewModel
 
-        viewModel.usersModel.observe(viewLifecycleOwner, Observer {
+        viewModel.usersModel.observe(viewLifecycleOwner, {
             it?.let {
-                adapter.submitList(it)
+                adapter.submitList(it.toMutableList())
             }
         })
         return binding.root
