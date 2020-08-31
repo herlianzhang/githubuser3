@@ -10,7 +10,6 @@ import com.latihangoding.githubuserapp.network.GithubApi
 import com.latihangoding.githubuserapp.repository.FavoriteRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import java.lang.Exception
 
 class ListViewModel(application: Application) : AndroidViewModel(application) {
@@ -74,7 +73,7 @@ class ListViewModel(application: Application) : AndroidViewModel(application) {
             val getSearchDeferred = GithubApi.retrofitService.getFollowersAsync(username)
 
             try {
-                val result = getSearchDeferred.await()
+                val result = getSearchDeferred.await().map { it.copy(isClickable = false) }
                 if (result.isEmpty()) {
                     _isShowNoData.postValue(true)
                 }
@@ -96,7 +95,7 @@ class ListViewModel(application: Application) : AndroidViewModel(application) {
             }
             val getSearchDeferred = GithubApi.retrofitService.getFollowingAsync(username)
             try {
-                val result = getSearchDeferred.await()
+                val result = getSearchDeferred.await().map { it.copy(isClickable = false) }
                 if (result.isEmpty()) {
                     _isShowNoData.postValue(true)
                 }

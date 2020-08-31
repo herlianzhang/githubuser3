@@ -39,5 +39,6 @@ data class ItemModel(
     @Json(name = "site_admin")
     val siteAdmin : Boolean?,
     val score : Int?,
-    var isFavorite: Boolean = false
+    var isFavorite: Boolean = false,
+    var isClickable: Boolean = true
 ) : Parcelable

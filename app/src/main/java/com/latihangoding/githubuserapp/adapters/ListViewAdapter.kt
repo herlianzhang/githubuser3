@@ -1,19 +1,18 @@
 package com.latihangoding.githubuserapp.adapters
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.ListAdapter
-import com.latihangoding.githubuserapp.R
+import androidx.recyclerview.widget.RecyclerView
 import com.latihangoding.githubuserapp.databinding.ListItemBinding
 import com.latihangoding.githubuserapp.models.ItemModel
 
 
-class ListViewAdapter(private val onClickListener: OnClickListener) : ListAdapter<ItemModel, ListViewAdapter.ViewHolder>(
-    ListDiffCallBack()
-) {
+class ListViewAdapter(private val onClickListener: OnClickListener) :
+    ListAdapter<ItemModel, ListViewAdapter.ViewHolder>(
+        ListDiffCallBack()
+    ) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
         ViewHolder.from(
@@ -25,21 +24,25 @@ class ListViewAdapter(private val onClickListener: OnClickListener) : ListAdapte
         holder.bind(item, onClickListener)
     }
 
-    class ViewHolder private constructor(private val binding: ListItemBinding) : RecyclerView.ViewHolder(binding.root) {
+    class ViewHolder private constructor(private val binding: ListItemBinding) :
+        RecyclerView.ViewHolder(binding.root) {
         fun bind(item: ItemModel, onClickListener: OnClickListener) {
             binding.model = item
             binding.executePendingBindings()
-            binding.root.setOnClickListener {
-                onClickListener.onListClick(item.login)
-            }
-            binding.ivFavorite.setOnClickListener {
-                onClickListener.onFavoriteClick(item)
+            binding.ivFavorite.isEnabled = item.isClickable
+            if (item.isClickable) {
+                binding.root.setOnClickListener {
+                    onClickListener.onListClick(item.login)
+                }
+                binding.ivFavorite.setOnClickListener {
+                    onClickListener.onFavoriteClick(item)
+                }
             }
         }
 
         companion object {
             fun from(parent: ViewGroup): ViewHolder {
-                val layoutInflater =  LayoutInflater.from(parent.context)
+                val layoutInflater = LayoutInflater.from(parent.context)
                 val binding = ListItemBinding.inflate(layoutInflater, parent, false)
 
                 return ViewHolder(
@@ -48,8 +51,6 @@ class ListViewAdapter(private val onClickListener: OnClickListener) : ListAdapte
             }
         }
     }
-
-
 
     interface OnClickListener {
         fun onListClick(username: String)
@@ -61,8 +62,6 @@ class ListDiffCallBack : DiffUtil.ItemCallback<ItemModel>() {
     override fun areItemsTheSame(oldItem: ItemModel, newItem: ItemModel): Boolean =
         oldItem.login == newItem.login
 
-    override fun areContentsTheSame(oldItem: ItemModel, newItem: ItemModel): Boolean {
-        Log.d("masuk", "areContentsTheSame: id: ${oldItem.login} : ${oldItem.isFavorite} == id: ${newItem.login} : ${newItem.isFavorite} = ${oldItem == newItem}")
-        return oldItem == newItem
-    }
+    override fun areContentsTheSame(oldItem: ItemModel, newItem: ItemModel): Boolean =
+        oldItem == newItem
 }

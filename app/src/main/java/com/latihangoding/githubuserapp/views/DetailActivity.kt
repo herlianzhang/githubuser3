@@ -1,8 +1,8 @@
 package com.latihangoding.githubuserapp.views
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -30,7 +30,7 @@ class DetailActivity : AppCompatActivity() {
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
 
-        viewModel.isBackClicked.observe(this, Observer { isBack ->
+        viewModel.isBackClicked.observe(this, { isBack ->
             if (isBack) {
                 onBackPressed()
             }
@@ -45,7 +45,16 @@ class DetailActivity : AppCompatActivity() {
             return@setOnNavigationItemSelectedListener true
         }
 
-        viewModel.isError.observe(this, Observer {
+        viewModel.isFavorite.observe(this, {
+            binding.ibFavorite.setImageResource(if (it) R.drawable.ic_favorite else R.drawable.ic_favorite_border)
+        })
+
+        viewModel.profileModel.observe(this, {
+            viewModel.checkFavorite()
+        })
+
+
+        viewModel.isError.observe(this, {
             if (it) {
                 showErrorMessage()
                 viewModel.doneShowErrorMessage()

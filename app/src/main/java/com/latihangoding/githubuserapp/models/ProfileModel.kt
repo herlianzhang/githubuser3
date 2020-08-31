@@ -28,7 +28,7 @@ data class ProfileModel(
     val htmlUrl: String?,
     val id: Int?,
     val location: String?,
-    val login: String?,
+    val login: String,
     val name: String?,
     @Json(name = "node_id")
     val nodeId: String?,

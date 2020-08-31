@@ -41,7 +41,6 @@ class ListActivity : AppCompatActivity(), ListViewAdapter.OnClickListener {
         viewModel.usersModel.observe(this, {
             it?.let {
                 adapter.submitList(ArrayList(it))
-                Log.d("masuk", "onCreate: masuk pak eko ${adapter.currentList == it}")
             }
         })
 
