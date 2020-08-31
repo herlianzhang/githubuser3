@@ -8,10 +8,13 @@
         app:actionViewClass="android.widget.SearchView"
         app:showAsAction="collapseActionView|always" />
     <item
+        android:id="@+id/itemFavorites"
+        android:title="@string/my_favorites" />
+    <item
         android:id="@+id/itemLanguage"
         android:title="@string/language"/>
     <item
-        android:id="@+id/itemFavorites"
-        android:title="@string/my_favorites" />
+        android:id="@+id/itemSetting"
+        android:title="@string/setting" />
 
 </menu>

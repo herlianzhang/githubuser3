@@ -1,11 +1,10 @@
 package com.latihangoding.githubuserapp.views
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.latihangoding.githubuserapp.R
 import com.latihangoding.githubuserapp.adapters.FavoriteAdapter
 import com.latihangoding.githubuserapp.databases.Favorite
@@ -31,7 +30,7 @@ class FavoriteListActivity : AppCompatActivity(), FavoriteAdapter.OnClickListene
 
         viewModel.favorites.observe(this, {
             it?.let {
-               adapter.submitList(it)
+                adapter.submitList(it)
             }
         })
     }

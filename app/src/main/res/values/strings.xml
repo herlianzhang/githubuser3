@@ -12,7 +12,10 @@
     <string name="total_followers">Followers: %s</string>
     <string name="company">Company: %s</string>
     <string name="user_type">User Type: %s</string>
-    <string name="avatar">Avatar</string>
     <string name="error">Network Error</string>
     <string name="my_favorites">My Favorites</string>
+    <string name="setting">Setting</string>
+    <string name="favorite">Favorite</string>
+    <string name="back">Back</string>
+    <string name="delete">Delete</string>
 </resources>

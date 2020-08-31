@@ -3,14 +3,13 @@ package com.latihangoding.githubuserapp.views
 import android.app.SearchManager
 import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.Settings
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.SearchView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.latihangoding.githubuserapp.R
@@ -18,9 +17,6 @@ import com.latihangoding.githubuserapp.adapters.ListViewAdapter
 import com.latihangoding.githubuserapp.databinding.ActivityListBinding
 import com.latihangoding.githubuserapp.models.ItemModel
 import com.latihangoding.githubuserapp.viewmodels.ListViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 class ListActivity : AppCompatActivity(), ListViewAdapter.OnClickListener {
 

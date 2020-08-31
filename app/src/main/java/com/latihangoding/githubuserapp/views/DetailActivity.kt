@@ -5,7 +5,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.latihangoding.githubuserapp.R
@@ -69,6 +68,7 @@ class DetailActivity : AppCompatActivity() {
     inner class ScreenSliderPagerAdapter : FragmentStateAdapter(this) {
         override fun getItemCount(): Int = 2
 
-        override fun createFragment(position: Int): Fragment = DetailFragment.newInstance(username, position == 0)
+        override fun createFragment(position: Int): Fragment =
+            DetailFragment.newInstance(username, position == 0)
     }
 }

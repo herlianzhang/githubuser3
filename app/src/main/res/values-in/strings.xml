@@ -13,7 +13,10 @@
     <string name="total_followers">Pengikut: %s</string>
     <string name="company">Perusahaan: %s</string>
     <string name="user_type">Tipe Pengguna: %s</string>
-    <string name="avatar">Avatar</string>
     <string name="error">Kesalahan Jaringan</string>
     <string name="my_favorites">Favorit Saya</string>
+    <string name="setting">Pengaturan</string>
+    <string name="favorite">Favorit</string>
+    <string name="back">Kembali</string>
+    <string name="delete">Hapus</string>
 </resources>
