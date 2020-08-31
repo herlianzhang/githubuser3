@@ -82,10 +82,13 @@ class ListActivity : AppCompatActivity(), ListViewAdapter.OnClickListener {
                 startActivity(mIntent)
             }
             R.id.itemFavorites -> {
-                val mIntent = Intent(this@ListActivity, FavoriteListActivity::class.java)
+                val mIntent = Intent(this, FavoriteListActivity::class.java)
                 startActivity(mIntent)
             }
-
+            R.id.itemSetting -> {
+                val mIntent = Intent(this, SettingActivity::class.java)
+                startActivity(mIntent)
+            }
         }
         return super.onOptionsItemSelected(item)
     }
