@@ -1,39 +1,53 @@
 package com.latihangoding.githubuserapp.views
 
-import android.app.Notification
-import androidx.appcompat.app.AppCompatActivity
+import android.content.ComponentName
+import android.content.pm.PackageManager
 import android.os.Bundle
-import android.view.View
+import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.ViewModelProvider
 import com.latihangoding.githubuserapp.R
+import com.latihangoding.githubuserapp.databinding.ActivitySettingBinding
 import com.latihangoding.githubuserapp.services.AlarmReceiver
-import kotlinx.android.synthetic.main.activity_setting.*
-import java.text.SimpleDateFormat
-import java.util.*
+import com.latihangoding.githubuserapp.viewmodels.SettingViewModel
 
-class SettingActivity : AppCompatActivity(), View.OnClickListener {
+class SettingActivity : AppCompatActivity() {
 
     private lateinit var alarmReceiver: AlarmReceiver
+    private lateinit var viewModel: SettingViewModel
+    private lateinit var binding: ActivitySettingBinding
+    private lateinit var receiver: ComponentName
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_setting)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_setting)
+        viewModel = ViewModelProvider(this).get(SettingViewModel::class.java)
+        binding.lifecycleOwner = this
+        binding.viewModel = viewModel
 
-        btn_set_once_alarm.setOnClickListener(this)
-        btn_cancel_alarm.setOnClickListener(this)
         alarmReceiver = AlarmReceiver()
-    }
+        receiver = ComponentName(this, AlarmReceiver::class.java)
 
-    override fun onClick(view: View?) {
-        view?.let { v ->
-            when (v.id) {
-                R.id.btn_set_once_alarm -> {
-//                    alarmReceiver.showAlarmNotification(this, "Haii", "guys", AlarmReceiver.ID_REPEATING)
-                    alarmReceiver.setRepeatingAlarm(this)
-                }
-                R.id.btn_cancel_alarm -> {
-                    alarmReceiver.cancelAlarm(this)
-                }
+        viewModel.isActive.observe(this, { status ->
+            if (viewModel.isFirst) {
+                viewModel.isFirst = false
+                return@observe
             }
-        }
+            if (status) {
+                packageManager.setComponentEnabledSetting(
+                    receiver,
+                    PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
+                    PackageManager.DONT_KILL_APP
+                )
+                alarmReceiver.setRepeatingAlarm(this)
+            } else {
+                packageManager.setComponentEnabledSetting(
+                    receiver,
+                    PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
+                    PackageManager.DONT_KILL_APP
+                )
+                alarmReceiver.cancelAlarm(this)
+            }
+        })
     }
 }

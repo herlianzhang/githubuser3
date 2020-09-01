@@ -1,24 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_main"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="16dp"
-    tools:context=".views.SettingActivity">
+    android:id="@+id/activity_main">
 
-    <Button
-        android:id="@+id/btn_set_once_alarm"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:text="@string/set_one_time_alarm" />
+    <data>
+        <variable
+            name="viewModel"
+            type="com.latihangoding.githubuserapp.viewmodels.SettingViewModel" />
+    </data>
 
-    <Button
-        android:id="@+id/btn_cancel_alarm"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:text="Cancel Alarm" />
-</LinearLayout>
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="16dp"
+        tools:context=".views.SettingActivity">
+
+        <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/mySwitch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="@{viewModel.isActive}"
+            android:onClick="@{() -> viewModel.setActive()}"
+            android:text="@string/remainder" />
+    </LinearLayout>
+</layout>

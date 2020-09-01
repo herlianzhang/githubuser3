@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
         android:allowBackup="true"
@@ -18,8 +19,11 @@
 
         <receiver
             android:name=".services.AlarmReceiver"
-            android:enabled="true"
-            android:exported="true" />
+            android:enabled="false">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
 
         <activity
             android:name=".views.FavoriteListActivity"
@@ -28,10 +32,11 @@
         <activity
             android:name=".views.ListActivity"
             android:theme="@style/AppTheme" />
-        <activity android:name=".views.MainActivity"
+        <activity
+            android:name=".views.MainActivity"
+            android:excludeFromRecents="true"
             android:launchMode="singleTask"
-            android:taskAffinity=""
-            android:excludeFromRecents="true">
+            android:taskAffinity="">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
