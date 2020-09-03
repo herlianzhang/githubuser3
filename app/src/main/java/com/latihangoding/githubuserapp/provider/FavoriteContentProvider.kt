@@ -1,7 +1,6 @@
 package com.latihangoding.githubuserapp.provider
 
 import android.content.ContentProvider
-import android.content.ContentUris
 import android.content.ContentValues
 import android.content.UriMatcher
 import android.database.Cursor
@@ -15,15 +14,24 @@ class FavoriteContentProvider : ContentProvider() {
 
     private lateinit var favoriteDao: FavoriteDao
     private val sUriMatcher = UriMatcher(UriMatcher.NO_MATCH).apply {
-        addURI(Values.AUTHORITY, Values.TABLE_NAME, 1)
+        addURI(Values.AUTHORITY, "${Values.TABLE_NAME}/#", 1)
+        addURI(Values.AUTHORITY, "${Values.TABLE_NAME}/#/*", 2)
     }
 
     override fun delete(uri: Uri, selection: String?, selectionArgs: Array<String>?): Int {
-        val deleted = favoriteDao.deleteById(ContentUris.parseId(uri))
+        return when (sUriMatcher.match(uri)) {
+            2 -> {
+                val deleted = favoriteDao.deleteByUsername(uri.lastPathSegment.toString())
+                context?.contentResolver?.notifyChange(uri, null)
 
-        context?.contentResolver?.notifyChange(uri, null)
-
-        return deleted
+                Log.d("provider", "delete: $deleted username: ${uri.lastPathSegment.toString()}")
+                deleted
+            }
+            else -> {
+                Log.e("provider", "delete: failed uri:${uri}, username: ${uri.lastPathSegment.toString()}")
+                0
+            }
+        }
     }
 
     override fun getType(uri: Uri): String? {
@@ -35,7 +43,6 @@ class FavoriteContentProvider : ContentProvider() {
     }
 
     override fun onCreate(): Boolean {
-        Log.d("WOII", "onCreate: masuk")
         context?.let { ctx ->
             favoriteDao = FavoriteDatabase.getInstance(ctx).favoriteDao()
         }
@@ -46,18 +53,16 @@ class FavoriteContentProvider : ContentProvider() {
         uri: Uri, projection: Array<String>?, selection: String?,
         selectionArgs: Array<String>?, sortOrder: String?
     ): Cursor? {
-        Log.d("WOII", "query: masuk\n$uri == ${sUriMatcher.match(uri)}")
-        return favoriteDao.getAllGetCursor()
-//        return when (sUriMatcher.match(uri)) {
-//            1 -> {
-//                Log.d("WOII", "query: masuk ke no 1")
-//                favoriteDao.getAllGetCursor()
-//            }
-//            else -> {
-//                Log.e("content provider", "query 1: Error Guys", )
-//                null
-//            }
-//        }
+        return when (sUriMatcher.match(uri)) {
+            1 -> {
+                Log.d("provider", "query: success")
+                favoriteDao.getAllGetCursor()
+            }
+            else -> {
+                Log.e("provider", "query: failed")
+                null
+            }
+        }
     }
 
     override fun update(

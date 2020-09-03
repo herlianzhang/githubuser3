@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">consumer</string>
+    <string name="delete">Hapus</string>
+    <string name="id">ID Pengguna: %d</string>
+</resources>

@@ -21,7 +21,7 @@ interface FavoriteDao {
     @Query("SELECT COUNT(username) FROM favorite_table WHERE username = :username")
     suspend fun filter(username: String): Int
 
-    @Query("DELETE FROM favorite_table where id = :id")
-    fun deleteById(id: Long): Int
+    @Query("DELETE FROM favorite_table where username = :username")
+    fun deleteByUsername(username: String): Int
 
 }

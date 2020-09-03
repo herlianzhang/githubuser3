@@ -6,6 +6,9 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <permission android:name="com.latihangoding.githubuserapp.READ_DATABASE" android:protectionLevel="normal" />
+    <permission android:name="com.latihangoding.githubuserapp.WRITE_DATABASE" android:protectionLevel="normal" />
+
 
     <application
         android:allowBackup="true"
@@ -20,8 +23,8 @@
             android:authorities="com.latihangoding.githubuserapp.provider"
             android:enabled="true"
             android:exported="true"
-            android:readPermission="com.latihangoding.githubuserapp.permission.READ_PROVIDER"
-            android:writePermission="com.latihangoding.githubuserapp.permission.WRITE_PROVIDER"/>
+            android:readPermission="com.latihangoding.githubuserapp.READ_DATABASE"
+            android:writePermission="com.latihangoding.githubuserapp.WRITE_DATABASE"/>
 
         <activity android:name=".views.SettingActivity" />
 
