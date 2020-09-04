@@ -3,4 +3,5 @@
     <string name="app_name">consumer</string>
     <string name="delete">Hapus</string>
     <string name="id">ID Pengguna: %d</string>
+    <string name="no_data">Tidak Menemukan Data</string>
 </resources>

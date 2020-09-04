@@ -2,7 +2,6 @@ package com.latihangoding.consumer.viewmodels
 
 import android.app.Application
 import android.net.Uri
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -22,7 +21,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         fetchFavorites()
     }
 
-    private fun fetchFavorites() {
+    fun fetchFavorites() {
         viewModelScope.launch {
             val cursor = withContext(Dispatchers.IO) {
                 contentResolver.query(
@@ -34,9 +33,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                 )
             }
             FavoriteModel.mapToFavorites(cursor)?.let { mFavorites ->
-                Log.d("provider", "fetchFavorites: $mFavorites")
                 _favorites.postValue(mFavorites)
-
             }
         }
     }

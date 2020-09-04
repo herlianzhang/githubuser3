@@ -30,6 +30,11 @@ class MainActivity : AppCompatActivity(), FavoriteAdapter.OnClickListener {
                 adapter.submitList(it)
             }
         })
+
+        binding.srlMain.setOnRefreshListener {
+            viewModel.fetchFavorites()
+            binding.srlMain.isRefreshing = false
+        }
     }
 
     override fun onDeleteClick(favorite: FavoriteModel) {

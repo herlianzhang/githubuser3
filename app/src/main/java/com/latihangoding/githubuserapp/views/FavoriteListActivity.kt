@@ -18,12 +18,10 @@ class FavoriteListActivity : AppCompatActivity(), FavoriteAdapter.OnClickListene
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        title = getString(R.string.my_favorites)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
         binding = DataBindingUtil.setContentView(this, R.layout.activity_favorite_list)
-        binding.lifecycleOwner = this
         viewModel = ViewModelProvider(this).get(FavoriteViewModel::class.java)
+        binding.lifecycleOwner = this
+        binding.viewModel = viewModel
 
         val adapter = FavoriteAdapter(this)
         binding.rvMain.adapter = adapter
@@ -33,6 +31,9 @@ class FavoriteListActivity : AppCompatActivity(), FavoriteAdapter.OnClickListene
                 adapter.submitList(it)
             }
         })
+
+        title = getString(R.string.my_favorites)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
     override fun onSupportNavigateUp(): Boolean {

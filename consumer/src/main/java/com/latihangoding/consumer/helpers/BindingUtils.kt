@@ -1,5 +1,6 @@
 package com.latihangoding.consumer.helpers
 
+import android.view.View
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
@@ -15,4 +16,9 @@ fun bindImage(imgView: ImageView, imgUrl: String?) {
                 .error(R.drawable.ic_broken_image))
             .into(imgView)
     }
+}
+
+@BindingAdapter("visibility")
+fun View.setVisibility(status: Boolean) {
+    visibility = if (status) View.VISIBLE else View.GONE
 }

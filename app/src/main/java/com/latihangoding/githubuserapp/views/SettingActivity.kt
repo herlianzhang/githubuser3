@@ -49,5 +49,13 @@ class SettingActivity : AppCompatActivity() {
                 alarmReceiver.cancelAlarm(this)
             }
         })
+
+        title = getString(R.string.setting)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
     }
 }

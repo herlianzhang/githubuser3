@@ -14,7 +14,8 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:padding="16dp"
-        tools:context=".views.SettingActivity">
+        tools:context=".views.SettingActivity"
+        android:gravity="center_horizontal">
 
         <com.google.android.material.switchmaterial.SwitchMaterial
             android:id="@+id/mySwitch"

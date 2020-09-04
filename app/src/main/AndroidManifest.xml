@@ -6,8 +6,13 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-    <permission android:name="com.latihangoding.githubuserapp.READ_DATABASE" android:protectionLevel="normal" />
-    <permission android:name="com.latihangoding.githubuserapp.WRITE_DATABASE" android:protectionLevel="normal" />
+
+    <permission
+        android:name="com.latihangoding.githubuserapp.READ_DATABASE"
+        android:protectionLevel="normal" />
+    <permission
+        android:name="com.latihangoding.githubuserapp.WRITE_DATABASE"
+        android:protectionLevel="normal" />
 
 
     <application
@@ -24,9 +29,7 @@
             android:enabled="true"
             android:exported="true"
             android:readPermission="com.latihangoding.githubuserapp.READ_DATABASE"
-            android:writePermission="com.latihangoding.githubuserapp.WRITE_DATABASE"/>
-
-        <activity android:name=".views.SettingActivity" />
+            android:writePermission="com.latihangoding.githubuserapp.WRITE_DATABASE" />
 
         <receiver
             android:name=".services.AlarmReceiver"
@@ -37,12 +40,18 @@
         </receiver>
 
         <activity
+            android:name=".views.SettingActivity"
+            android:theme="@style/AppTheme" />
+
+        <activity
             android:name=".views.FavoriteListActivity"
             android:theme="@style/AppTheme" />
         <activity android:name=".views.DetailActivity" />
+
         <activity
             android:name=".views.ListActivity"
             android:theme="@style/AppTheme" />
+
         <activity
             android:name=".views.MainActivity"
             android:excludeFromRecents="true"
