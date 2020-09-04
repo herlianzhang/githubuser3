@@ -14,7 +14,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:lottie_fileName="dancing_pallbearers.json" />
+            app:lottie_fileName="github_splash_screen.json" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>
