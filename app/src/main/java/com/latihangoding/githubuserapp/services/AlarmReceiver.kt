@@ -41,8 +41,8 @@ class AlarmReceiver : BroadcastReceiver() {
 
         // Set the alarm to start at approximately 09:00 a.m.
         val calendar: Calendar = Calendar.getInstance().apply {
-            set(Calendar.HOUR_OF_DAY, 16)
-            set(Calendar.MINUTE, 29)
+            set(Calendar.HOUR_OF_DAY, 9)
+            set(Calendar.MINUTE, 0)
             set(Calendar.SECOND, 0)
         }
 
@@ -71,10 +71,10 @@ class AlarmReceiver : BroadcastReceiver() {
             context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         val alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
         val builder = NotificationCompat.Builder(context, channelId)
-            .setSmallIcon(R.drawable.ic_delete)
+            .setSmallIcon(R.drawable.ic_notification_important)
             .setContentIntent(notifyPendingIntent)
-            .setContentTitle("Remainder")
-            .setContentText("this is daily remainder, click this for open the app")
+            .setContentTitle("Github App")
+            .setContentText("Let's find user popular user on Github!")
             .setColor(ContextCompat.getColor(context, android.R.color.transparent))
             .setVibrate(longArrayOf(1000, 1000, 1000, 1000, 1000))
             .setSound(alarmSound)
