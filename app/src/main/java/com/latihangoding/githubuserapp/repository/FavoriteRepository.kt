@@ -4,8 +4,9 @@ import com.latihangoding.githubuserapp.databases.Favorite
 import com.latihangoding.githubuserapp.databases.FavoriteDao
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class FavoriteRepository(private val favoriteDao: FavoriteDao) {
+class FavoriteRepository @Inject constructor(private val favoriteDao: FavoriteDao) {
     val favorites = favoriteDao.getFavorites()
 
     suspend fun setFavorite(favorite: Favorite) {

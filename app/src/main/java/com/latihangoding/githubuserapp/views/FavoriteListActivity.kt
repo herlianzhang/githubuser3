@@ -9,17 +9,21 @@ import com.latihangoding.githubuserapp.R
 import com.latihangoding.githubuserapp.adapters.FavoriteAdapter
 import com.latihangoding.githubuserapp.databases.Favorite
 import com.latihangoding.githubuserapp.databinding.ActivityFavoriteListBinding
+import com.latihangoding.githubuserapp.di.Injectable
 import com.latihangoding.githubuserapp.viewmodels.FavoriteViewModel
+import javax.inject.Inject
 
-class FavoriteListActivity : AppCompatActivity(), FavoriteAdapter.OnClickListener {
+class FavoriteListActivity : AppCompatActivity(), FavoriteAdapter.OnClickListener, Injectable {
 
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
     private lateinit var binding: ActivityFavoriteListBinding
     private lateinit var viewModel: FavoriteViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_favorite_list)
-        viewModel = ViewModelProvider(this).get(FavoriteViewModel::class.java)
+        viewModel = ViewModelProvider(this, viewModelFactory).get(FavoriteViewModel::class.java)
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
 
@@ -50,4 +54,5 @@ class FavoriteListActivity : AppCompatActivity(), FavoriteAdapter.OnClickListene
     override fun onDeleteClick(favorite: Favorite) {
         viewModel.deleteFavorite(favorite)
     }
+
 }

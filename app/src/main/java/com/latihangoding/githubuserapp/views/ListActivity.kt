@@ -15,18 +15,22 @@ import androidx.lifecycle.ViewModelProvider
 import com.latihangoding.githubuserapp.R
 import com.latihangoding.githubuserapp.adapters.ListViewAdapter
 import com.latihangoding.githubuserapp.databinding.ActivityListBinding
+import com.latihangoding.githubuserapp.di.Injectable
 import com.latihangoding.githubuserapp.models.ItemModel
 import com.latihangoding.githubuserapp.viewmodels.ListViewModel
+import javax.inject.Inject
 
-class ListActivity : AppCompatActivity(), ListViewAdapter.OnClickListener {
+class ListActivity : AppCompatActivity(), ListViewAdapter.OnClickListener, Injectable {
 
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
     private lateinit var binding: ActivityListBinding
     private lateinit var viewModel: ListViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_list)
-        viewModel = ViewModelProvider(this).get(ListViewModel::class.java)
+        viewModel = ViewModelProvider(this, viewModelFactory).get(ListViewModel::class.java)
         binding.lifecycleOwner = this
 
         val adapter =

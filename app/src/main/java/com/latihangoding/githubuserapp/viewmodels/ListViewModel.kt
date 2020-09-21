@@ -11,11 +11,11 @@ import com.latihangoding.githubuserapp.repository.FavoriteRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.lang.Exception
+import javax.inject.Inject
 
-class ListViewModel(application: Application) : AndroidViewModel(application) {
-    private val repository: FavoriteRepository
+class ListViewModel @Inject constructor(application: Application, private val repository: FavoriteRepository) : AndroidViewModel(application) {
 
-    val favorites: LiveData<List<Favorite>>
+    val favorites: LiveData<List<Favorite>> = repository.favorites
 
     private val _usersModel = MutableLiveData<List<ItemModel>>()
     val usersModel: LiveData<List<ItemModel>>
@@ -34,9 +34,6 @@ class ListViewModel(application: Application) : AndroidViewModel(application) {
         get() = _isError
 
     init {
-        val favoriteDao = FavoriteDatabase.getInstance(application).favoriteDao()
-        repository = FavoriteRepository(favoriteDao)
-        favorites = repository.favorites
         _isShowNoData.postValue(true)
         _isError.postValue(false)
     }

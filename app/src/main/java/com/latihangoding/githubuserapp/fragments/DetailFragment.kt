@@ -12,6 +12,7 @@ import com.latihangoding.githubuserapp.adapters.ListViewAdapter
 import com.latihangoding.githubuserapp.databinding.ActivityListBinding
 import com.latihangoding.githubuserapp.models.ItemModel
 import com.latihangoding.githubuserapp.viewmodels.ListViewModel
+import javax.inject.Inject
 
 class DetailFragment : Fragment(), ListViewAdapter.OnClickListener {
 
