@@ -2,20 +2,26 @@ package com.latihangoding.githubuserapp.viewmodels
 
 import android.app.Application
 import android.util.Log
-import androidx.lifecycle.*
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.latihangoding.githubuserapp.databases.Favorite
-import com.latihangoding.githubuserapp.databases.FavoriteDatabase
 import com.latihangoding.githubuserapp.models.ItemModel
 import com.latihangoding.githubuserapp.network.GithubApi
 import com.latihangoding.githubuserapp.repository.FavoriteRepository
+import com.latihangoding.githubuserapp.repository.GithubRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.lang.Exception
 import javax.inject.Inject
 
-class ListViewModel @Inject constructor(application: Application, private val repository: FavoriteRepository) : AndroidViewModel(application) {
+class ListViewModel @Inject constructor(
+    application: Application,
+    private val favoriteRepository: FavoriteRepository,
+    private val githubRepository: GithubRepository,
+) : AndroidViewModel(application) {
 
-    val favorites: LiveData<List<Favorite>> = repository.favorites
+    val favorites: LiveData<List<Favorite>> = favoriteRepository.favorites
 
     private val _usersModel = MutableLiveData<List<ItemModel>>()
     val usersModel: LiveData<List<ItemModel>>
@@ -109,7 +115,7 @@ class ListViewModel @Inject constructor(application: Application, private val re
     fun setFavorite(item: ItemModel) {
         val favorite = Favorite(item.login, item.id, item.avatarUrl)
         viewModelScope.launch(Dispatchers.IO) {
-            repository.setFavorite(favorite)
+            favoriteRepository.setFavorite(favorite)
             checkFavorite()
         }
     }
@@ -123,7 +129,7 @@ class ListViewModel @Inject constructor(application: Application, private val re
             usersModel.value?.let { users ->
                 val mUsers = mutableListOf<ItemModel>()
                 for (user in users) {
-                    val mUser = user.copy(isFavorite = repository.getIsFavorite(user.login))
+                    val mUser = user.copy(isFavorite = favoriteRepository.getIsFavorite(user.login))
                     mUsers.add(mUser)
                 }
                 _usersModel.postValue(mUsers)

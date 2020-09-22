@@ -1,7 +1,7 @@
 package com.latihangoding.githubuserapp.di
 
 import android.app.Application
-import com.latihangoding.githubuserapp.GithubApp
+import com.latihangoding.githubuserapp.App
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjectionModule
@@ -18,5 +18,5 @@ interface AppComponent {
         fun build(): AppComponent
     }
 
-    fun inject(githubApp: GithubApp)
+    fun inject(app: App)
 }

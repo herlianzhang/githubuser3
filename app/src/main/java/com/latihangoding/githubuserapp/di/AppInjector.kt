@@ -6,17 +6,17 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
-import com.latihangoding.githubuserapp.GithubApp
+import com.latihangoding.githubuserapp.App
 import dagger.android.AndroidInjection
 import dagger.android.HasAndroidInjector
 import dagger.android.support.AndroidSupportInjection
 
 object AppInjector {
-    fun init(githubApp: GithubApp) {
-        DaggerAppComponent.builder().application(githubApp)
-            .build().inject(githubApp)
+    fun init(app: App) {
+        DaggerAppComponent.builder().application(app)
+            .build().inject(app)
 
-        githubApp.registerActivityLifecycleCallbacks(object :
+        app.registerActivityLifecycleCallbacks(object :
             Application.ActivityLifecycleCallbacks {
             override fun onActivityCreated(p0: Activity, p1: Bundle?) {
                 handleActivity(p0)

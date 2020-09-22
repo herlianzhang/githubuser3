@@ -61,7 +61,6 @@
                         app:layout_constraintTop_toTopOf="@+id/ciAvatar"
                         tools:src="@drawable/ic_favorite_border" />
 
-
                     <de.hdodenhof.circleimageview.CircleImageView
                         android:id="@+id/ciAvatar"
                         imageUrl="@{viewModel.profileModel.avatarUrl}"
