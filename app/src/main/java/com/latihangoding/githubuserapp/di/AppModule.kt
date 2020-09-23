@@ -4,7 +4,6 @@ import android.app.Application
 import androidx.room.Room
 import com.latihangoding.githubuserapp.api.ApiService
 import com.latihangoding.githubuserapp.api.AuthInterceptor
-import com.latihangoding.githubuserapp.data.RemoteDataSource
 import com.latihangoding.githubuserapp.databases.FavoriteDao
 import com.latihangoding.githubuserapp.databases.FavoriteDatabase
 import com.latihangoding.githubuserapp.helpers.Values
@@ -24,10 +23,6 @@ class AppModule {
         @ServiceApi okHttpClient: OkHttpClient,
         converterFactory: GsonConverterFactory
     ) = provideService(okHttpClient, converterFactory, ApiService::class.java)
-
-    @Singleton
-    @Provides
-    fun provideApiRemoteDataSource(apiService: ApiService) = RemoteDataSource(apiService)
 
     @ServiceApi
     @Provides

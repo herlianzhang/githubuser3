@@ -14,10 +14,13 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.latihangoding.githubuserapp.R
 import com.latihangoding.githubuserapp.adapters.ListViewAdapter
+import com.latihangoding.githubuserapp.data.Result
 import com.latihangoding.githubuserapp.databinding.ActivityListBinding
 import com.latihangoding.githubuserapp.di.Injectable
+import com.latihangoding.githubuserapp.di.injectViewModel
 import com.latihangoding.githubuserapp.models.ItemModel
 import com.latihangoding.githubuserapp.viewmodels.ListViewModel
+import timber.log.Timber
 import javax.inject.Inject
 
 class ListActivity : AppCompatActivity(), ListViewAdapter.OnClickListener, Injectable {
@@ -30,7 +33,7 @@ class ListActivity : AppCompatActivity(), ListViewAdapter.OnClickListener, Injec
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_list)
-        viewModel = ViewModelProvider(this, viewModelFactory).get(ListViewModel::class.java)
+        viewModel = injectViewModel(viewModelFactory)
         binding.lifecycleOwner = this
 
         val adapter =
@@ -53,6 +56,20 @@ class ListActivity : AppCompatActivity(), ListViewAdapter.OnClickListener, Injec
 
         viewModel.favorites.observe(this, {
             viewModel.checkFavorite()
+        })
+
+        viewModel.testGithub.observe(this, {
+            when(it) {
+                is Result.SUCCESS -> {
+                    Timber.d("Success guys data = ${it.data}")
+                }
+                is Result.ERROR -> {
+
+                }
+                is Result.LOADING -> {
+                    Timber.d("Loading bentar guys")
+                }
+            }
         })
     }
 

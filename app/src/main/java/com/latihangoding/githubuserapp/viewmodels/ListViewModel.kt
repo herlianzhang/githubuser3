@@ -2,10 +2,7 @@ package com.latihangoding.githubuserapp.viewmodels
 
 import android.app.Application
 import android.util.Log
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.latihangoding.githubuserapp.databases.Favorite
 import com.latihangoding.githubuserapp.models.ItemModel
 import com.latihangoding.githubuserapp.network.GithubApi
@@ -22,6 +19,11 @@ class ListViewModel @Inject constructor(
 ) : AndroidViewModel(application) {
 
     val favorites: LiveData<List<Favorite>> = favoriteRepository.favorites
+
+    val username = MutableLiveData<String>()
+    val testGithub = Transformations.switchMap(username) {
+        return@switchMap githubRepository.getUserData(it)
+    }
 
     private val _usersModel = MutableLiveData<List<ItemModel>>()
     val usersModel: LiveData<List<ItemModel>>
@@ -40,6 +42,7 @@ class ListViewModel @Inject constructor(
         get() = _isError
 
     init {
+        username.postValue("Herlian")
         _isShowNoData.postValue(true)
         _isError.postValue(false)
     }

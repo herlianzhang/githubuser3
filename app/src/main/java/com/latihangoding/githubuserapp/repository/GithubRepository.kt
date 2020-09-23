@@ -1,12 +1,11 @@
 package com.latihangoding.githubuserapp.repository
 
-import androidx.lifecycle.liveData
-import com.latihangoding.githubuserapp.data.RemoteDataSource
-import kotlinx.coroutines.Dispatchers
+import com.latihangoding.githubuserapp.api.ApiService
+import com.latihangoding.githubuserapp.data.DataSource
 import javax.inject.Inject
 
-class GithubRepository @Inject constructor(private val remoteDataSource: RemoteDataSource) {
-    fun getUserData(username: String) = liveData(Dispatchers.IO) {
-        emit(remoteDataSource.fetchSearchData(username))
-    }
+class GithubRepository @Inject constructor(private val wkwkwk: DataSource, private val apiService: ApiService) {
+    fun getUserData(username: String) =
+        wkwkwk.resultTestLiveData { apiService.getSearchDataAsync(username) }
+
 }
